@@ -58,8 +58,12 @@ likeList.appendChild(li)
 }
 
 function like() {
-
-    console.log('i am the like function')
+    if (state.likes[state.count]) {
+        state.likes[state.count] ++ }
+    else
+        { state.likes[state.count] = 1
+    }
+    renderLikes()
 }
 
 heart.addEventListener('click', renderLike)
