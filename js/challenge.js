@@ -1,7 +1,7 @@
 const state = {
     count: 0,
     paused: false,
-    likes: {1: 10, 2: 20, 3: 30, 4: 40}
+    likes: {}
 }
 
 let counter = document.getElementById('counter');
@@ -19,7 +19,7 @@ setInterval(() => count(1), 1000);
 function count(num) {
     if (!state.paused) {
     state.count += num
-    counter.innerHTML = state.count;
+    counter.innerHTML = state.count
     }
 }
 
@@ -30,16 +30,32 @@ function pauser() {
         if (button.id !== 'pause') {
             button.disabled = !button.disabled
         }
-        pause.innerText = state.paused ? 'resume' : 'pause'
     })
+    pause.innerText = state.paused ? 'resume' : 'pause'
 }
 
 function addComment(e) {
     e.preventDefault()
-    let render = document.createElement('h1')
-    list.innerHTML += form.comment.value
-    list.appendChild(render)
+    const comment = document.createElement('h1')
+    let input = form.comment.value
+    comment.innerText = input
+    list.appendChild(comment)
     form.reset()
+}
+
+const buttonFucntions = {
+'plus': () => count(1),
+    "minus": () => count(-1),
+    "pause": pauser,
+    "heart": like
+
+}
+
+
+
+function like(){
+    (state.likes[state.count]) ? state.likes[state.count] ++ : state.likes[state.count] = 1
+    renderLikes()
 }
 
 function renderLikes() {
@@ -51,19 +67,10 @@ Object.entries(state.likes).forEach(likeArray => {
 })
 }
 
-function renderLike(second, like) {
+function renderLike(second, likes) {
 const li = document.createElement('li')
-li.innerHTML = `${second} has been liked ${like} times.`
+li.innerHTML = `${second} has been liked ${likes} time${state.likes[second] === 1 ? "" : "s"}.`
 likeList.appendChild(li)
-}
-
-function like() {
-    if (state.likes[state.count]) {
-        state.likes[state.count] ++ }
-    else
-        { state.likes[state.count] = 1
-    }
-    renderLikes()
 }
 
 heart.addEventListener('click', renderLike)
